@@ -49,11 +49,23 @@ The program also demonstrates how to:
    idf.py flash monitor
 
 ## Expected Output
-
+```bash
+queueText : data waiting to be read : 4  available spaces: 1 
+queueInt :data waiting to be read : 3  available spaces: 2 
+Text = Test Message 2
+value =  15
 queueText : data waiting to be read : 3  available spaces: 2 
-queueInt : data waiting to be read : 2  available spaces: 3 
-got a data from queue!  ===  Test Message 2
-current =  25
+queueInt :data waiting to be read : 2  available spaces: 3 
+Text = Test Message 1
+value =  25
 queueText : data waiting to be read : 2  available spaces: 3 
-queueInt : data waiting to be read : 1  available spaces: 4
+queueInt :data waiting to be read : 1  available spaces: 4 
+Text = Test Message 3
+value =  0
+queueText : data waiting to be read : 1  available spaces: 4 
+queueInt :data waiting to be read : 1  available spaces: 4 
+Text = Test Message 4
+value =  1
+
+
 

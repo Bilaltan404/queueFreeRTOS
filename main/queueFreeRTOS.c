@@ -69,12 +69,12 @@ void receiveTask(void *arg)
        
         if (xQueueReceive(queueText, &(rxbuff), (TickType_t)5)) // see the data and remove it from the queue. If want to see the data but keep it in the queue.
         {                                                       // you can use  if(xQueuePeek(queue1, &(rxbuff) , (TickType_t)5 ))   
-            printf("got a data from queue!  ===  %s \n", rxbuff);
+            printf("Text  =  %s \n", rxbuff);
         }
 
         if (xQueueReceive(queueInt, &(rxbuff), (TickType_t)5))
         {
-            printf("current =  %d \n", *rxbuff);
+            printf("Value =  %d \n", *rxbuff);
         }
 
         vTaskDelay(pdMS_TO_TICKS(1000));
