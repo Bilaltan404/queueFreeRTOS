@@ -1,53 +1,59 @@
-| Supported Targets | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-S2 | ESP32-S3 |
-| ----------------- | ----- | -------- | -------- | -------- | -------- |
+# FreeRTOS Queue Example
 
-# Hello World Example
+This project demonstrates how to use two FreeRTOS queues (`queueText` and `queueInt`) to pass data between two tasks (`sendTask` and `receiveTask`). The tasks exchange both text and integer values through these queues and manage the flow of messages effectively.
 
-Starts a FreeRTOS task to print "Hello World".
+## Description
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+In this example:
+- `sendTask` sends both text messages and integer values to two separate queues (`queueText` for strings and `queueInt` for integers).
+- `receiveTask` reads data from these queues and prints the received values.
 
-## How to use example
+The program also demonstrates how to:
+- Send data to the front or back of the queue.
+- Check how many messages are waiting in the queue and how many spaces are still available.
 
-Follow detailed instructions provided specifically for this example. 
+## How It Works
 
-Select the instructions depending on Espressif chip installed on your development board:
+1. **Queue Creation:**
+   - Two queues are created: one for text data (`queueText`) and one for integer data (`queueInt`).
+   - `queueText` holds up to 5 text messages, and `queueInt` holds up to 5 integer values.
 
-- [ESP32 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/stable/get-started/index.html)
-- [ESP32-S2 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/get-started/index.html)
+2. **sendTask Behavior:**
+   - The `sendTask` sends a series of predefined messages and integers into the respective queues.
+   - Text messages are inserted at either the front or the back of the queue depending on whether `xQueueSend` or `xQueueSendToFront` is used.
+   - It then continuously increments the integer value and sends it to the `queueInt`, while also printing the status of both queues (how many messages are waiting and how many spaces are available).
 
+3. **receiveTask Behavior:**
+   - The `receiveTask` attempts to receive messages from both queues every second.
+   - If data is received from the `queueText`, it prints the string. 
+   - If data is received from `queueInt`, it prints the integer value.
 
-## Example folder contents
+## Code Breakdown
 
-The project **hello_world** contains one source file in C language [hello_world_main.c](main/hello_world_main.c). The file is located in folder [main](main).
+- **sendTask:** Sends data to both `queueText` and `queueInt` and prints the status of each queue (messages waiting and available spaces).
+- **receiveTask:** Receives data from both queues and prints the received values.
+- **app_main:** Initializes and starts the `sendTask` and `receiveTask`.
 
-ESP-IDF projects are built using CMake. The project build configuration is contained in `CMakeLists.txt` files that provide set of directives and instructions describing the project's source files and targets (executable, library, or both). 
+## Prerequisites
 
-Below is short explanation of remaining files in the project folder.
+- ESP-IDF installed on your machine.
+- A supported ESP32 board.
 
-```
-├── CMakeLists.txt
-├── pytest_hello_world.py      Python script used for automated testing
-├── main
-│   ├── CMakeLists.txt
-│   └── hello_world_main.c
-└── README.md                  This is the file you are currently reading
-```
+## How to Run
 
-For more information on structure and contents of ESP-IDF projects, please refer to Section [Build System](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html) of the ESP-IDF Programming Guide.
+1. Clone this repository and navigate to the project folder.
+2. Run the following commands to configure and flash the code to your ESP32:
+   ```bash
+   idf.py set-target esp32
+   idf.py menuconfig
+   idf.py flash monitor
 
-## Troubleshooting
+## Expected Output
 
-* Program upload failure
+queueText : data waiting to be read : 3  available spaces: 2 
+queueInt : data waiting to be read : 2  available spaces: 3 
+got a data from queue!  ===  Test Message 2
+current =  25
+queueText : data waiting to be read : 2  available spaces: 3 
+queueInt : data waiting to be read : 1  available spaces: 4
 
-    * Hardware connection is not correct: run `idf.py -p PORT monitor`, and reboot your board to see if there are any output logs.
-    * The baud rate for downloading is too high: lower your baud rate in the `menuconfig` menu, and try again.
-
-## Technical support and feedback
-
-Please use the following feedback channels:
-
-* For technical queries, go to the [esp32.com](https://esp32.com/) forum
-* For a feature request or bug report, create a [GitHub issue](https://github.com/espressif/esp-idf/issues)
-
-We will get back to you as soon as possible.
